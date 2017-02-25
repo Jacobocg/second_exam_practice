@@ -14,7 +14,7 @@ export default (app) => {
 
     // make sure text is not empty
     if (answer !== undefined && !answer.length) {
-      res.status(400).send({error: 'Answer should be not empty!'});
+      res.status(400).send({error: 'Answer should be not empty!', questionId: id});
       return;
     }
 

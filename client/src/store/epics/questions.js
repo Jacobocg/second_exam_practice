@@ -73,6 +73,7 @@ export const answerQuestion = action$ => action$
       {
         type: ActionTypes.ANSWER_QUESTION_ERROR,
         payload: {error},
+        h: console.log(error),
       },
       Actions.addNotificationAction(
         {text: `[answer create] Error: ${ajaxErrorToMessage(error)}`, alertType: 'danger'},

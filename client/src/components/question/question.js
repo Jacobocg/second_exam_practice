@@ -31,6 +31,7 @@ class Question extends Component {
             style={{cursor: 'pointer'}}
             onClick={handleCollapseClick} />{' '}
           {question.text}
+          <span className="pull-right">Owner: {question.login}</span>
         </div>
         {collapse ? null : <Answers question={question} loading />}
         {collapse ? null : <AddAnswer question={question} />}

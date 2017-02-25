@@ -12,7 +12,10 @@ export const questions = (state = initialState, action) => {
       return {...state, questions: state.questions.concat(action.payload.questions), status: 'done', hasMore};
     }
     case ActionTypes.GET_ANSWERS_ERROR:
-    case ActionTypes.ANSWER_QUESTION_ERROR:
+    case ActionTypes.ANSWER_QUESTION_ERROR: {
+      const answering = {...state.answering, [action.payload.error.xhr.response.questionId]: false};
+      return {...state, answering};
+    }
     case ActionTypes.CREATE_QUESTION_ERROR:
       return {
         ...state,
@@ -21,7 +24,7 @@ export const questions = (state = initialState, action) => {
       };
     case ActionTypes.GET_ANSWERS_SUCCESS:
     case ActionTypes.ANSWER_QUESTION_SUCCESS: {
-      const newQuestions = state.questions.map(q => q.id === action.payload.id ? action.payload : q);
+      const newQuestions = state.questions.map(q => q.id === action.payload.id ? {...q, answers: action.payload.answers} : q);
       return {
         ...state,
         questions: newQuestions,
