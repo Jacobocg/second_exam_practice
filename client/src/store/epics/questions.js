@@ -114,3 +114,26 @@ export const removePendingQuestionNotifications = action$ => action$
   .map(question =>
     Actions.removeNotificationByRefAction(question.id),
   );
+
+export const deleteQuestion = action$ => action$
+    .ofType(ActionTypes.DELETE_QUESTION)
+    .map(signRequest)
+    .switchMap(({headers, questionId}) => Observable
+      .ajax.delete(`http://localhost:8080/api/question/${questionId}`, headers)
+      .map(res => res.response)
+      .mergeMap(questionDeleted => Observable.of({
+        type: ActionTypes.DELETE_QUESTION_SUCCESS,
+        payload: questionDeleted,
+      },
+      Actions.addNotificationAction(
+        {text: 'Question deleted', alertType: 'info'}),
+      ))
+      .catch(error => Observable.of({
+        type: ActionTypes.DELETE_QUESTION_ERROR,
+        payload: {error},
+      },
+      Actions.addNotificationAction(
+        {text: `[question deleted] Error: ${ajaxErrorToMessage(error)}`, alertType: 'danger'},
+      ),
+    )),
+    );

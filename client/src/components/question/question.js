@@ -1,7 +1,18 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 
 import Answers from './answers.js';
 import AddAnswer from './addAnswer.js';
+
+import {deleteQuestion} from '../../store/actions';
+
+const mapStateToProps = state => ({
+  userId: state.auth.user.id,
+});
+
+const mapDispatchToProps = dispatch => ({
+  onRemoveQuestionClick: questionId => dispatch(deleteQuestion(questionId)),
+});
 
 class Question extends Component {
 
@@ -15,6 +26,12 @@ class Question extends Component {
   render() {
     const {question} = this.props;
     const {collapse} = this.state;
+
+    const handleRemoveClick = (e) => {
+      e.preventDefault();
+      this.props.onRemoveQuestionClick(question.id);
+      return false;
+    };
 
     const handleCollapseClick = (e) => {
       e.preventDefault();
@@ -31,6 +48,11 @@ class Question extends Component {
             style={{cursor: 'pointer'}}
             onClick={handleCollapseClick} />{' '}
           {question.text}
+          <button
+            className={`btn btn-xs btn-warning glyphicon glyphicon-trash pull-right ${this.props.userId !== question.owner ? 'hidden' : ''}`}
+            onClick={handleRemoveClick}
+          >
+          </button>
           <span className="pull-right">Owner: {question.login}</span>
         </div>
         {collapse ? null : <Answers question={question} loading />}
@@ -39,4 +61,4 @@ class Question extends Component {
     );
   }
 }
-export default Question;
+export default connect(mapStateToProps, mapDispatchToProps)(Question);

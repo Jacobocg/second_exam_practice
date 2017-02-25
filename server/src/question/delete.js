@@ -20,6 +20,6 @@ export default (app) => {
     await question.delete();
 
     // send success status
-    res.sendStatus(204);
+    res.send({questionDeleted: req.params.id});
   }));
 };

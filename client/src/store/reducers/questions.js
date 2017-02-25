@@ -44,6 +44,10 @@ export const questions = (state = initialState, action) => {
       const newQuestions = [action.payload, ...state.questions];
       return {...state, questions: newQuestions, status: 'done', hasMore: state.hasMore};
     }
+    case ActionTypes.DELETE_QUESTION_SUCCESS: {
+      const newQuestions = state.questions.filter(question => question.id !== action.payload.questionDeleted);
+      return {...state, questions: newQuestions};
+    }
     default:
       return state;
   }
