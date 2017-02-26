@@ -51,6 +51,9 @@ export const questions = (state = initialState, action) => {
     case ActionTypes.SAVE_OPEN_QUESTION: {
       return {...state, openQuestions: state.openQuestions.concat(action.questionId)};
     }
+    case ActionTypes.CLEAR_OPEN_QUESTION: {
+      return {...state, openQuestions: state.openQuestions.filter(open => open !== action.questionId)};
+    }
     default:
       return state;
   }

@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import Answers from './answers.js';
 import AddAnswer from './addAnswer.js';
 
-import {deleteQuestion, saveOpenQuestion} from '../../store/actions';
+import {deleteQuestion, saveOpenQuestion, clearOpenQuestion} from '../../store/actions';
 
 const mapStateToProps = state => ({
   userId: state.auth.user.id,
@@ -14,6 +14,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   onRemoveQuestionClick: questionId => dispatch(deleteQuestion(questionId)),
   onSaveOpenQuestion: questionId => dispatch(saveOpenQuestion(questionId)),
+  onClearOpenQuestion: questionId => dispatch(clearOpenQuestion(questionId)),
 });
 
 class Question extends Component {
@@ -29,6 +30,10 @@ class Question extends Component {
     if (!this.state.collapse) {
       this.props.onSaveOpenQuestion(this.props.question.id);
     }
+  }
+
+  componentDidMount() {
+    this.props.onClearOpenQuestion(this.props.question.id);
   }
 
   render() {

@@ -100,3 +100,8 @@ export const saveOpenQuestion = questionId => ({
   type: ActionTypes.SAVE_OPEN_QUESTION,
   questionId,
 });
+
+export const clearOpenQuestion = questionId => ({
+  type: ActionTypes.CLEAR_OPEN_QUESTION,
+  questionId,
+});
