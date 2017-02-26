@@ -4,14 +4,16 @@ import {connect} from 'react-redux';
 import Answers from './answers.js';
 import AddAnswer from './addAnswer.js';
 
-import {deleteQuestion} from '../../store/actions';
+import {deleteQuestion, saveOpenQuestion} from '../../store/actions';
 
 const mapStateToProps = state => ({
   userId: state.auth.user.id,
+  openQuestions: state.questions.openQuestions,
 });
 
 const mapDispatchToProps = dispatch => ({
   onRemoveQuestionClick: questionId => dispatch(deleteQuestion(questionId)),
+  onSaveOpenQuestion: questionId => dispatch(saveOpenQuestion(questionId)),
 });
 
 class Question extends Component {
@@ -19,8 +21,14 @@ class Question extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      collapse: true,
+      collapse: this.props.openQuestions.filter(open => open === this.props.question.id).length > 0 ? false : true,
     };
+  }
+
+  componentWillUnmount() {
+    if (!this.state.collapse) {
+      this.props.onSaveOpenQuestion(this.props.question.id);
+    }
   }
 
   render() {

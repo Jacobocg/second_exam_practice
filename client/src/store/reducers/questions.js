@@ -1,6 +1,6 @@
 import * as ActionTypes from '../actionTypes';
 
-const initialState = {questions: [], status: 'inited', answering: {}, hasMore: true};
+const initialState = {questions: [], openQuestions: [], status: 'inited', answering: {}, hasMore: true};
 
 export const questions = (state = initialState, action) => {
   switch (action.type) {
@@ -47,6 +47,9 @@ export const questions = (state = initialState, action) => {
     case ActionTypes.DELETE_QUESTION_SUCCESS: {
       const newQuestions = state.questions.filter(question => question.id !== action.payload.questionDeleted);
       return {...state, questions: newQuestions};
+    }
+    case ActionTypes.SAVE_OPEN_QUESTION: {
+      return {...state, openQuestions: state.openQuestions.concat(action.questionId)};
     }
     default:
       return state;

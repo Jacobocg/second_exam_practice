@@ -95,3 +95,8 @@ export const deleteQuestion = questionId => ({
   type: ActionTypes.DELETE_QUESTION,
   questionId,
 });
+
+export const saveOpenQuestion = questionId => ({
+  type: ActionTypes.SAVE_OPEN_QUESTION,
+  questionId,
+});
