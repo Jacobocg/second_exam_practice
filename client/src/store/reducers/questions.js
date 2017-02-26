@@ -5,6 +5,12 @@ const initialState = {questions: [], openQuestions: [], status: 'inited', answer
 export const questions = (state = initialState, action) => {
   switch (action.type) {
     // all questions logic
+    case ActionTypes.SEARCH_QUESTIONS:
+      return {...state, questions: [], status: 'loading', error: null};
+    case ActionTypes.SEARCH_QUESTIONS_SUCCESS: {
+      const hasMore = action.payload.questions.length === 10;
+      return {...state, questions: state.questions.concat(action.payload.questions), status: 'done', hasMore};
+    }
     case ActionTypes.GET_MORE_QUESTIONS:
       return {...state, status: 'loading', error: null};
     case ActionTypes.GET_MORE_QUESTIONS_SUCCESS: {

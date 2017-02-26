@@ -137,3 +137,25 @@ export const deleteQuestion = action$ => action$
       ),
     )),
     );
+
+export const searchQuestions = action$ => action$
+    .ofType(ActionTypes.SEARCH_QUESTIONS)
+    .map(signRequest)
+    .throttleTime(1000)
+    .switchMap(({headers, payload}) => Observable
+      .ajax.get(`http://${host}:${port}/api/question?skip=${payload.skip || 0}&limit=${payload.limit || 10}&text=${payload.searchText}`, headers)
+      .map(res => res.response)
+      .map(questions => ({
+        type: ActionTypes.GET_MORE_QUESTIONS_SUCCESS,
+        payload: {questions},
+      }))
+      .catch(error => Observable.of(
+        {
+          type: ActionTypes.SEARCH_QUESTIONS_ERROR,
+          payload: {error},
+        },
+        Actions.addNotificationAction(
+          {text: `[search questions] Error: ${ajaxErrorToMessage(error)}`, alertType: 'danger'},
+        ),
+      )),
+    );

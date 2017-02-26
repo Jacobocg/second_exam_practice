@@ -105,3 +105,8 @@ export const clearOpenQuestion = questionId => ({
   type: ActionTypes.CLEAR_OPEN_QUESTION,
   questionId,
 });
+
+export const searchQuestions = payload => ({
+  type: ActionTypes.SEARCH_QUESTIONS,
+  payload,
+});
