@@ -26,6 +26,9 @@ const Create = ({doCreateQuestion}) => {
     const text = questionText.value;
     const expirationDate = moment(questionDate.value).toISOString();
 
+    questionText.value = null;
+    questionDate.value = null;
+
     doCreateQuestion({text, expirationDate});
 
     return false;
