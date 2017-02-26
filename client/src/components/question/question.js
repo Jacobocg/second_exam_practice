@@ -5,6 +5,7 @@ import Answers from './answers.js';
 import AddAnswer from './addAnswer.js';
 
 import {deleteQuestion, saveOpenQuestion, clearOpenQuestion} from '../../store/actions';
+import Modal from '../modal';
 
 const mapStateToProps = state => ({
   userId: state.auth.user.id,
@@ -43,7 +44,7 @@ class Question extends Component {
     const handleRemoveClick = (e) => {
       e.preventDefault();
       this.setState({collapse: true});
-      this.props.onRemoveQuestionClick(question.id);
+      // this.props.onRemoveQuestionClick(question.id);
       return false;
     };
 
@@ -57,6 +58,7 @@ class Question extends Component {
 
     return (
       <div className="panel panel-default">
+        <Modal id={question.id} action={deleteQuestion} />
         <div className="panel-heading">
           <span className={`glyphicon glyphicon-${collapse ? 'plus' : 'minus'}`}
             style={{cursor: 'pointer'}}
@@ -65,6 +67,7 @@ class Question extends Component {
           <button
             className={`btn btn-xs btn-warning glyphicon glyphicon-trash pull-right ${this.props.userId !== question.owner ? 'hidden' : ''}`}
             onClick={handleRemoveClick}
+            data-toggle="modal" data-target={'#modal' + question.id}
           >
           </button>
           <span className="pull-right">Owner: {question.login}</span>
