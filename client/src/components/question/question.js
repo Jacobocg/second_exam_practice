@@ -42,6 +42,7 @@ class Question extends Component {
 
     const handleRemoveClick = (e) => {
       e.preventDefault();
+      this.setState({collapse: true});
       this.props.onRemoveQuestionClick(question.id);
       return false;
     };
