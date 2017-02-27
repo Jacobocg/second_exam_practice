@@ -26,22 +26,25 @@ class AddAnswer extends Component {
 
     return (
       <div className="panel-footer">
-        <form className="form-horizontal">
-          <div className="input-group">
-            <input
-              type="text"
-              className="form-control"
-              id="answerInput"
-              placeholder="Enter your answer..."
-              ref={(i) => { answerInput = i; }}
-            />
-            <span className="input-group-btn">
-              <button type="submit" className="btn btn-default" onClick={handleAnswerClick}>
-                Answer
-              </button>
-            </span>
-          </div>
-        </form>
+        {new Date(question.expirationDate) < new Date() ?
+          <div>Question expired. No answers admited.</div> :
+          <form className="form-horizontal">
+            <div className="input-group">
+              <input
+                type="text"
+                className="form-control"
+                id="answerInput"
+                placeholder="Enter your answer..."
+                ref={(i) => { answerInput = i; }}
+              />
+              <span className="input-group-btn">
+                <button type="submit" className="btn btn-default" onClick={handleAnswerClick}>
+                  Answer
+                </button>
+              </span>
+            </div>
+          </form>
+        }
       </div>
     );
   }
